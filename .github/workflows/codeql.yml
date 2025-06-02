@@ -23,35 +23,11 @@ jobs:
       matrix:
         include:
           - language: c-cpp
-            build-mode: manual
+            build-mode: autobuild
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
-    - name: Install build dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          gcc-arm-linux-gnueabi \
-          build-essential bison flex libssl-dev \
-          libncurses5-dev libncursesw5-dev \
-          python3-dev swig libpython3-dev \
-          pkg-config u-boot-tools device-tree-compiler
-
-    - name: Configure U-Boot for QEMU ARM
-      run: |
-        export CROSS_COMPILE=arm-linux-gnueabi-
-        make qemu_arm_defconfig
-
-    - name: Patch dtc yylloc error
-      run: |
-        find scripts/dtc -name 'dtc-parser.tab.c' -exec sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' {} +
-
-    - name: Build U-Boot
-      run: |
-        export CROSS_COMPILE=arm-linux-gnueabi-
-        make -j$(nproc)
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
