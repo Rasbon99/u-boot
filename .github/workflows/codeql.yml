@@ -34,20 +34,20 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential bison flex libssl-dev \
           libncurses5-dev libncursesw5-dev python3-dev swig libpython3-dev \
-          pkg-config u-boot-tools device-tree-compiler
+          pkg-config u-boot-tools device-tree-compiler libsdl1.2-dev
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        queries: ./codeql-uboot  
+        packs: ./codeql-uboot
 
     - if: matrix.build-mode == 'manual'
       name: Manual build for U-Boot
       run: |
         make sandbox_defconfig
-        make -j$(nproc)
+        make DTC_NO_YACC=1 -j$(nproc)
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
