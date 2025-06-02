@@ -39,20 +39,26 @@ jobs:
           python3-dev swig libpython3-dev \
           pkg-config u-boot-tools device-tree-compiler
 
+    - name: Configure U-Boot for QEMU ARM
+      run: |
+        export CROSS_COMPILE=arm-linux-gnueabi-
+        make qemu_arm_defconfig
+
+    - name: Patch dtc yylloc error
+      run: |
+        find scripts/dtc -name 'dtc-parser.tab.c' -exec sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' {} +
+
+    - name: Build U-Boot
+      run: |
+        export CROSS_COMPILE=arm-linux-gnueabi-
+        make -j$(nproc)
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
         queries: ./codeql-uboot
-
-    - if: matrix.build-mode == 'manual'
-      name: Build U-Boot manually (qemu_arm)
-      run: |
-        export CROSS_COMPILE=arm-linux-gnueabi-
-        sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' scripts/dtc/dtc-parser.tab.c || true
-        make qemu_arm_defconfig
-        make -j$(nproc)
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
