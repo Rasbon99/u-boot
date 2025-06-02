@@ -24,8 +24,6 @@ jobs:
         include:
           - language: c-cpp
             build-mode: manual
-          - language: python
-            build-mode: none
 
     steps:
     - name: Checkout repository
@@ -43,7 +41,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        packs: codeql-uboot  
+        queries: ./codeql-uboot  
 
     - if: matrix.build-mode == 'manual'
       name: Manual build for U-Boot
