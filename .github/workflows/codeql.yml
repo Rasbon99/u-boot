@@ -23,7 +23,9 @@ jobs:
       matrix:
         include:
           - language: c-cpp
-            build-mode: autobuild
+            build-mode: manual
+            build-command: make CROSS_COMPILE=arm-linux-gnueabi-
+            queries: ./codeql-uboot
 
     steps:
     - name: Checkout repository
