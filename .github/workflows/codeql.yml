@@ -46,6 +46,10 @@ jobs:
         build-mode: ${{ matrix.build-mode }}
         queries: ./codeql-uboot
 
+    - name: Patch dtc to fix yylloc error
+      run: |
+        sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' scripts/dtc/dtc-parser.tab.c || true
+
     - if: matrix.build-mode == 'manual'
       name: Build U-Boot manually (qemu_arm)
       run: |
