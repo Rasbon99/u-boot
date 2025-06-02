@@ -1,3 +1,10 @@
+/**
+ * @id 07-macro-invocations
+ * @problem.severity warning
+ * @kind problem
+ */
+
+
 import cpp
 
 from MacroInvocation macInv

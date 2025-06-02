@@ -1,3 +1,9 @@
+/**
+ * @id 03-function-definitions
+ * @problem.severity warning
+ * @kind problem
+ */
+
 import cpp
 
 from Function f

@@ -1,3 +1,8 @@
+/**
+ * @id 09-class-network-byteswap
+ * @problem.severity warning
+ * @kind problem
+ */
 
 import cpp
 

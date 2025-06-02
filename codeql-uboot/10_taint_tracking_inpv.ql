@@ -1,6 +1,9 @@
 /**
+ * @id 10-taint-tracking-inpv
+ * @problem.severity error
  * @kind path-problem
  */
+
 
 import cpp
 import semmle.code.cpp.dataflow.TaintTracking

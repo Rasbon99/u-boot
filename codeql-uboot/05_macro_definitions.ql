@@ -1,3 +1,9 @@
+/**
+ * @id 05-macro-definitions
+ * @problem.severity warning
+ * @kind problem
+ */
+
 import cpp
 
 from Macro mac

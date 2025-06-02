@@ -1,3 +1,9 @@
+/**
+ * @id 04-memcpy-definitions
+ * @problem.severity warning
+ * @kind problem
+ */
+
 import cpp
 
 from Function f
