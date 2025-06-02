@@ -29,12 +29,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install dependencies for U-Boot build
+    - name: Install build dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential bison flex libssl-dev \
-          libncurses5-dev libncursesw5-dev python3-dev swig libpython3-dev \
-          pkg-config u-boot-tools device-tree-compiler libsdl1.2-dev
+        sudo apt-get install -y \
+          gcc-arm-linux-gnueabi \
+          build-essential bison flex libssl-dev \
+          libncurses5-dev libncursesw5-dev \
+          python3-dev swig libpython3-dev \
+          pkg-config u-boot-tools device-tree-compiler
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -44,10 +47,11 @@ jobs:
         queries: ./codeql-uboot
 
     - if: matrix.build-mode == 'manual'
-      name: Manual build for U-Boot
+      name: Build U-Boot manually (qemu_arm)
       run: |
-        make sandbox_defconfig
-        make DTC_NO_YACC=1 -j$(nproc)
+        export CROSS_COMPILE=arm-linux-gnueabi-
+        make qemu_arm_defconfig
+        make -j$(nproc)
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
